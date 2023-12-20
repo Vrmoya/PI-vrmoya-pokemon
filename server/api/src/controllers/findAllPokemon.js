@@ -12,7 +12,7 @@ const findAllPokemnon = async (req, res) => {
 
     if (remainingPokemonCount > 0) {
       // Obtener Pokémon de la API
-      const response = await axios.get(`${URL}?limit=${remainingPokemonCount}`);
+      const response = await axios(`${URL}?limit=${remainingPokemonCount}`);
       const apiPokemons = response.data.results;
 
       // Mapear los resultados de la API para obtener las propiedades necesarias

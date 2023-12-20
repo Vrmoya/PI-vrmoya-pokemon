@@ -25,7 +25,7 @@ const getAllTypes = async (req, res) => {
         }
 
         // Si no hay tipos en la base de datos, obtenerlos de la API
-        const response = await axios.get(`${URL_TYPE}`);
+        const response = await axios(`${URL_TYPE}`);
         const typesFromAPI = response.data.results.map((type) => ({ name: type.name }));
 
         // Almacenar los tipos obtenidos de la API en la base de datos

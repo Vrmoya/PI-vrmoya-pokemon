@@ -17,9 +17,9 @@ const getAllTypes = require('../controllers/getAllTypes');
 
 router.get('/pokemons', findAllPokemnon);
 
-router.get('/pokemons/:id', getPokeById);
+router.get('/pokemons/name', getPokeByName);
 
-router.get('/pokemons/name?', getPokeByName);
+router.get('/pokemons/:id', getPokeById);
 
 router.post('/pokemons', postPokemon);
 

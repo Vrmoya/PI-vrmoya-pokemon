@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Card = ({
   id,
   name,
@@ -11,11 +13,15 @@ const Card = ({
   typeData,
 }) => {
   return (
+  <Link to={`/pokemon/${id}`}>
     <div>
+    
       <img src={image} alt={name} />
       <p>Name: {name}</p>
       <p>Type: {typeData || 'Unknown'}</p>
+      
     </div>
+    </Link>
   );
 };
 

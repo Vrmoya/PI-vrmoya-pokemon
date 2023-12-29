@@ -18,16 +18,18 @@ const getPokeById = async (req, res) => {
     
     // Si no se encuentra en la BD, hacer la solicitud a la API
     const { data } = await axios(`${URL}${id}`);
-    const { name, sprites, stats, height, weight } = data;
+    const { name, sprites, stats, height, weight, types } = data;
     const pokemonAPI = { 
       name, 
-      image: sprites?.front_default || null,
+      image: sprites?.other.dream_world.front_default || null,
       hp: stats.find(stat => stat.stat.name === 'hp')?.base_stat || null,
       attack: stats.find(stat => stat.stat.name === 'attack')?.base_stat || null,
       defense: stats.find(stat => stat.stat.name === 'defense')?.base_stat || null,
       speed: stats.find(stat => stat.stat.name === 'speed')?.base_stat || null,
       height,
-      weight };
+      weight, 
+      type: types.find((type) => type.slot === 1).type.name
+     };
     
     return pokemonAPI.name
       ? res.status(200).json(pokemonAPI)

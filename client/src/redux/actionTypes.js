@@ -1,0 +1,5 @@
+export const SET_POKEMONS = "SET_POKEMONS";
+export const SET_TYPES = "SET_TYPES";
+export const SORT_BY_ORDER = "SORT_BY_ORDER";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const SET_POKEMONS_PER_PAGE = "SET_POKEMONS_PER_PAGE";

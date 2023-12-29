@@ -3,7 +3,7 @@ const { Pokemon } = require("../db");
 
 const URL = "https://pokeapi.co/api/v2/pokemon";
 
-const findAllPokemnon = async (req, res) => {
+const findAllPokemon = async (req, res) => {
   try {
     const pokemonsFromDB = await Pokemon.findAll();
 
@@ -26,11 +26,15 @@ const findAllPokemnon = async (req, res) => {
             stats,
             height,
             weight,
+            types
+           
+            
           } = data;
           const hp = stats.find((stat) => stat.stat.name === "hp").base_stat;
           const attack = stats.find((stat) => stat.stat.name === "attack").base_stat;
           const defense = stats.find((stat) => stat.stat.name === "defense").base_stat;
           const speed = stats.find((stat) => stat.stat.name === "speed").base_stat;
+          const typeData = types.find((type) => type.slot === 1).type.name;
 
           return {
             id,
@@ -42,6 +46,7 @@ const findAllPokemnon = async (req, res) => {
             speed,
             height,
             weight,
+            typeData
           };
         })
       );
@@ -59,7 +64,7 @@ const findAllPokemnon = async (req, res) => {
   }
 };
 
-module.exports = findAllPokemnon;
+module.exports = findAllPokemon;
 
 
 

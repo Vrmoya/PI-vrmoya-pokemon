@@ -34,7 +34,7 @@ const findAllPokemon = async (req, res) => {
           const attack = stats.find((stat) => stat.stat.name === "attack").base_stat;
           const defense = stats.find((stat) => stat.stat.name === "defense").base_stat;
           const speed = stats.find((stat) => stat.stat.name === "speed").base_stat;
-          const typeData = types.find((type) => type.slot === 1).type.name;
+          const type = types.find((type) => type.slot === 1).type.name;
 
           return {
             id,
@@ -46,7 +46,7 @@ const findAllPokemon = async (req, res) => {
             speed,
             height,
             weight,
-            typeData
+            type
           };
         })
       );

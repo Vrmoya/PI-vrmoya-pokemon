@@ -2,7 +2,7 @@
   @include flex(row, wrap, space-around, center);
 
   padding: 16px 24px;
-  background-color: rgb(97, 141, 243);
+  background-color: rgb(203, 211, 230);
   min-height: 100vh;
 
   @include sm {
@@ -12,3 +12,7 @@
 }
 
 
+.Container :hover{
+  transform: translateY(-15px);
+  box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+}

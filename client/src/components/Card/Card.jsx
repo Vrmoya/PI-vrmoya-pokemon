@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import styles from './Card.module.scss'
 
 const Card = ({
   id,
@@ -10,15 +11,14 @@ const Card = ({
   speed,
   height,
   weight,
-  typeData,
+  type,
 }) => {
   return (
-  <Link to={`/pokemon/${id}`}>
-    <div>
-    
-      <img src={image} alt={name} />
-      <p>Name: {name}</p>
-      <p>Type: {typeData || 'Unknown'}</p>
+  <Link to={`/pokemon/${id}`} className={styles.link}>
+    <div className={styles.card}>
+      <img src={image} alt={name} className={styles.img} />
+      <h4>Name: {name}</h4>
+      <p>Type: {type || 'Unknown'}</p>
       
     </div>
     </Link>
@@ -27,32 +27,3 @@ const Card = ({
 
 export default Card;
 
-// const Card = ({handleClick,
-//   id,
-//   name,
-//   image,
-//   hp,
-//   attack,
-//   defense,
-//   speed,
-//   height,
-//   weight,
-//   types
-
-// }) => {
-//   return (
-//     <div onClick={() => handleClick(id)}>
-//       <img src={image} alt={name} />
-//       <p>{name}</p>
-//       <p>{hp}</p>
-//       <p>{attack}</p>
-//       <p>{defense}</p>
-//       <p>{speed}</p>
-//       <p>{height}</p>
-//       <p>{weight}</p>
-//       <p>{types.join(', ')}</p>
-//     </div>
-//   );
-// };
-
-// export default Card;

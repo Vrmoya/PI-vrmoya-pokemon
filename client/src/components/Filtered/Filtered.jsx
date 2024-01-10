@@ -1,53 +1,58 @@
-// Filtered.jsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTypes, setFilterTypeAndFilterPokemons } from '../../redux/actions';
+import { fetchTypes, setFilterType, setFilterTypeAndFilterPokemons } from '../../redux/actions';
 
 const Filtered = ({ handleSort }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.types);
-  const filterType = useSelector((state) => state.filterType);
   const allPokemons = useSelector((state) => state.pokemons);
+  const filteredPokemons = useSelector((state) => state.filteredPokemons);
 
   useEffect(() => {
     dispatch(fetchTypes());
+    dispatch(setFilterType());
   }, [dispatch]);
 
-  const handleTypeChange = (e) => {
-    dispatch(setFilterTypeAndFilterPokemons(e.target.value, allPokemons));
+  const handleTypeChange = (type) => {
+    dispatch(setFilterTypeAndFilterPokemons(type, allPokemons));
   };
 
   return (
     <div>
-      {/* Dropdown para filtrar por tipo */}
-      <select value={filterType} onChange={handleTypeChange}>
-        <option value="">Todos los tipos</option>
-        {types && types.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-        {/* Agregar opciones para los tipos específicos */}
-        <option value="Steel">Steel</option>
-        <option value="Water">Water</option>
-        <option value="Bug">Bug</option>
-        <option value="Dragon">Dragon</option>
-        <option value="Electric">Electric</option>
-        <option value="Ghost">Ghost</option>
-        <option value="Fire">Fire</option>
-        <option value="Fairy">Fairy</option>
-        {/* Agrega más opciones según sea necesario */}
-      </select>
-
-      <select onChange={(e) => handleSort(e.target.value)}>
+      <button onClick={() => handleTypeChange('all')}>Todos los tipos</button>
+      <div>
+        {types && types.length > 0 ? (
+          types.map((type) => (
+            <button key={type.id} onClick={() => handleTypeChange(type.name)}>
+              {type.name}
+            </button>
+          ))
+        ) : (
+          <p>Loading or no types available</p>
+        )}
+      </div>
+      {/* Display filtered Pokemon based on the selected type */}
+      {/* {filteredPokemons.map((pokemon) => (
+        <div key={pokemon.id}>
+           <img src={image} alt={name} className={styles.img} />
+      <h4>Name: {name}</h4>
+      <p>Type: {type || 'Unknown'}</p>
+        </div>
+      ))} */}
+      {/* <select onChange={(e) => handleSort(e.target.value)}>
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>
-      </select>
+      </select> */}
     </div>
   );
 };
 
 export default Filtered;
+
+
+
+
+
 
 
 

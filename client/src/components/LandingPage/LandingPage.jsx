@@ -1,10 +1,13 @@
 import {Link} from "react-router-dom";
+import  Style  from "../LandingPage/LandingPage.module.scss";
+
 
 const LandingPage = () => {
     return (
-        <div>
-            <h1>Esta es mi landing page</h1>
-            <Link to="/home"><button>Home</button></Link>
+        <div className={Style.landing}>
+            
+            <h5 className={Style.text}>Pokemon World</h5>
+            <Link to="/home"><button className={Style.button}>Go</button></Link>
         </div>
     )
 }

@@ -28,8 +28,10 @@ const getPokeByName = async (req, res) => {
     // Si no se encontraron resultados en la base de datos local, buscar en la API
 
     const {data} = await axios(`${URL.replace('{name}', encodeURIComponent(name))}`);
-    const {sprites, stats, height, weight, types } = data;
-    const pokeNameAPI = { name, 
+    const {id, sprites, stats, height, weight, types } = data;
+    const pokeNameAPI = { 
+      id,
+      name, 
       image: sprites?.other.dream_world.front_default || null,
       hp: stats.find(stat => stat.stat.name === 'hp')?.base_stat || null,
       attack: stats.find(stat => stat.stat.name === 'attack')?.base_stat || null,
@@ -40,7 +42,7 @@ const getPokeByName = async (req, res) => {
       type: types.find((type) => type.slot === 1).type.name
        };
 
-    console.log("Respuesta de la API:", pokeNameAPI); // Agrega esta línea para depurar
+    console.log("Respuesta de la API:", pokeNameAPI); 
 
     // Verificar si la respuesta de la API tiene la estructura esperada
     if (!pokeNameAPI || typeof pokeNameAPI !== "object" || !pokeNameAPI.name) {

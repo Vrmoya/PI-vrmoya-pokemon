@@ -7,7 +7,8 @@ import {
   SET_CURRENT_PAGE,
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
-  FILTER_BY_ORIGIN
+  FILTER_BY_ORIGIN,
+  EXTRACT_TYPES_FROM_POKEMONS
 
  
 } from "./actionTypes";
@@ -26,7 +27,21 @@ const initialState = {
 
 const pokemonReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-   
+    case EXTRACT_TYPES_FROM_POKEMONS:
+      const typesSet = new Set();
+    
+      state.pokemons.forEach((pokemon) => {
+        if (pokemon.types) {
+          pokemon.types.forEach((type) => {
+            typesSet.add(type.name);
+          });
+        }
+      });
+    
+      return {
+        ...state,
+        types: Array.from(typesSet),
+      };
     case SET_POKEMONS:
       return {
         ...state,
@@ -40,15 +55,33 @@ const pokemonReducer = (state = initialState, { type, payload }) => {
         types: payload,
       };
       case FILTER_BY_TYPE:
-  const filteredByType = payload === ""
+        console.log("Payload in FILTER_BY_TYPE:", payload);
+  const filteredByType = payload === "all" 
     ? state.pokemons
-    : state.pokemons.filter((pokemon) => pokemon.types.some(type => type === payload));
+    : state.pokemons.filter((pokemon) => {
+        console.log("Current Pokemon:", pokemon);
+        console.log("Pokemon Types:", pokemon.type);
 
+        // Asegúrate de que pokemon.type sea un array
+        const typesArray = pokemon.type || [];
+
+        return (
+          typesArray.length > 0 &&
+          typesArray.includes(payload)
+        );
+      });
+
+  console.log("Filtered By Type:", filteredByType);
   return {
     ...state,
-    filteredPokemons: filteredByType
+    filteredPokemons: filteredByType,
   };
 
+
+
+      
+      
+      
 case FILTER_BY_ORIGIN:
   const filteredByOrigin = payload === 'All'
     ? state.pokemons

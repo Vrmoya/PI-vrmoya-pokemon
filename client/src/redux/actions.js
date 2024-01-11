@@ -7,7 +7,9 @@ import {
   SET_CURRENT_PAGE,
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
-  FILTER_BY_ORIGIN
+  FILTER_BY_ORIGIN,
+  EXTRACT_TYPES_FROM_POKEMONS
+  
 } from "../redux/actionTypes";
 
 const URL = "http://localhost:3001/pokemons";
@@ -27,10 +29,12 @@ const URL = "http://localhost:3001/pokemons";
 //   });
 // };
 
-export const setPokemons = (pokemons) => ({
-  type: SET_POKEMONS,
-  payload: pokemons,
-});
+export const setPokemons = (pokemons) => {
+  return {
+    type: SET_POKEMONS,
+    payload: pokemons,
+  };
+};
 
 export const fetchPokemons = (searchTerm) => {
   return async (dispatch) => {
@@ -115,14 +119,14 @@ export const setCurrentPage = (page) => ({
 export const filterByType = (type)=>{
   return {
     type: FILTER_BY_TYPE,
-    payload: type
+    payload: type,
   }
 }
 
 export const filterByOrigin = (origin)=>{
   return {
     type: FILTER_BY_ORIGIN,
-    payload: origin
+    payload: origin,
   }
 }
 
@@ -131,5 +135,10 @@ export const crearPokemon = (pokemon) => {
   return {
     type: 'CREAR_POKEMON',
     payload: pokemon,
+  };
+};
+export const extractTypesFromPokemons = () => {
+  return {
+    type: EXTRACT_TYPES_FROM_POKEMONS,
   };
 };

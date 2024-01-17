@@ -1,3 +1,22 @@
+
+  const filteredByType =
+    payload === "" || payload === "all"
+      ? state.pokemons
+      : state.pokemons.filter((pokemon) => {
+          // Ensure that pokemon.types is an array
+          const typesArray = pokemon.types || [];
+
+          return typesArray.length > 0 && typesArray.includes(payload);
+        });
+
+  return {
+    ...state,
+    filterType: payload, // Update the filterType in the state
+    filteredPokemons: filteredByType,
+  };
+
+
+
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {

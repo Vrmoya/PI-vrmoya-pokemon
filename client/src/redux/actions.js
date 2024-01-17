@@ -8,26 +8,15 @@ import {
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
-  EXTRACT_TYPES_FROM_POKEMONS
+  EXTRACT_TYPES_FROM_POKEMONS,
+  CREAR_POKEMON_REQUEST,
+  CREAR_POKEMON_SUCCESS,
+  CREAR_POKEMON_FAILURE,
   
 } from "../redux/actionTypes";
 
 const URL = "http://localhost:3001/pokemons";
 
-// export const filterPokemonsByType = (pokemons, type) => {
-//   if (type === undefined || type.toLowerCase() === "all") {
-//     return pokemons; // Return all Pokemon when type is 'all' or undefined
-//   }
-//   return pokemons.filter((pokemon) => {
-//     // Check if the pokemon object and its types property exist
-//     return (
-//       pokemon &&
-//       pokemon.types &&
-//       Array.isArray(pokemon.types) && // Ensure types is an array
-//       pokemon.types.includes(type)
-//     );
-//   });
-// };
 
 export const setPokemons = (pokemons) => {
   return {
@@ -131,11 +120,42 @@ export const filterByOrigin = (origin)=>{
 }
 
 
-export const crearPokemon = (pokemon) => {
-  return {
-    type: 'CREAR_POKEMON',
-    payload: pokemon,
-  };
+export const crearPokemonRequest = () => ({
+  type: CREAR_POKEMON_REQUEST,
+});
+
+export const crearPokemonSuccess = (pokemon) => ({
+  type: CREAR_POKEMON_SUCCESS,
+  payload: pokemon,
+});
+
+export const crearPokemonFailure = (error) => ({
+  type: CREAR_POKEMON_FAILURE,
+  payload: error,
+});
+
+export const crearPokemon = (pokemonData) => async (dispatch) => {
+  dispatch(crearPokemonRequest());
+
+  try {
+    const response = await fetch(`${URL}`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pokemonData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      dispatch(crearPokemonSuccess(data.poke));
+    } else {
+      dispatch(crearPokemonFailure('Error al crear el Pokemon'));
+    }
+  } catch (error) {
+    dispatch(crearPokemonFailure('Error de red'));
+  }
 };
 export const extractTypesFromPokemons = () => {
   return {

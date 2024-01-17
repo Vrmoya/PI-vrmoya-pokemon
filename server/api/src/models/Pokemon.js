@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       primaryKey:true,
       allowNull: false,
-      autoIncrement:true,
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -40,6 +40,10 @@ module.exports = (sequelize) => {
     },
     height:{
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    type:{
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
     

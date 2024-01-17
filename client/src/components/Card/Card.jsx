@@ -16,9 +16,14 @@ const Card = ({
   return (
   <Link to={`/pokemon/${id}`} className={styles.link}>
     <div className={styles.card}>
+     
       <img src={image} alt={name} className={styles.img} />
       <h4>Name: {name}</h4>
+      <div className={styles.p}>
       <p>Type: {type || 'Unknown'}</p>
+      <p>attack: {attack}</p>
+      <p>hp: {hp}</p>
+      </div>
       
     </div>
     </Link>

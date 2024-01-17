@@ -1,647 +1,188 @@
-import React, { useState, useEffect } from 'react';
-// import { Link  } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { crearPokemon, fetchTypes } from "../../redux/actions";
+import Validate from "./Validate";
+import styles from "./CreatePokemon.module.scss";
+const CreatePokemon = () => {
+  const dispatch = useDispatch();
+  const type = useSelector((state) => state.types);
 
+  const initialState = {
+    name: "",
+    image: "",
+    hp: "",
+    attack: "",
+    defense: "",
+    speed: "",
+    weight: "",
+    height: "",
+    type: [],
+  };
+  
+  const [newPokemon, setNewPokemon] = useState(initialState);
+  const [errors, setErrors] = useState({});
 
-import style from '../CreatePokemon/PokemonCreate.module.scss'
-import validate from './validate.js';
-// import Oak from '../../images/profesor.png'
-// import swal from 'sweetalert';
+  useEffect(() => {
+    dispatch(fetchTypes());
+  }, [dispatch]);
 
-const createPokemon = () => {
-    const dispatch = useDispatch();
-    const types = useSelector(state => state.types)
-    const pokemons = useSelector(state => state.pokemons.map( pok => pok.name))
-   
+  const handleChange = (event) => {
+    setNewPokemon({
+      ...newPokemon,
+      [event.target.name]: event.target.value,
+    });
 
-    const [errors, setErrors] = useState({})
-    const [section, setSection] = useState(1);
+    setErrors(
+      Validate({
+        [event.target.name]: event.target.value,
+      })
+    );
+  };
 
+  const handleTypeChange = (event) => {
+    const selectedTypes = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
 
-    const [input, setInput] = useState({
-        name: '',
-        hp: '',
-        attack: '',
-        defense: '',
-        speed: '',
-        weight: '',
-        height: '',
-        types: [],
-    })
-    function handleChange(e){
-        setInput({
-            ...input,
-            [e.target.name] : e.target.value.replaceAll(/^\s+/g, "").replaceAll(/\s+/g, " ")
-        })
+    setNewPokemon((prevPokemon) => ({
+      ...prevPokemon,
+      type: selectedTypes,
+    }));
+  };
 
-        setErrors(validate({
-            ...input,
-            [e.target.name] : e.target.value
-        }, pokemons))
+  const resetForm = () => {
+    setNewPokemon(initialState);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Validaciones adicionales antes de enviar el formulario
+    const formValid = Object.values(errors).every((value) => value === "");
+
+    if (formValid) {
+      console.log("Datos a enviar:", newPokemon);
+      // Llamar a la acción para crear el Pokémon
+      dispatch(crearPokemon(newPokemon));
+
+      // Reiniciar el formulario después de enviar con éxito
+      resetForm();
+    } else {
+      // Manejar el caso en que el formulario no sea válido
+      console.error("Formulario no válido");
     }
+  };
 
-    
-    function handleSection(e){
-        e.preventDefault();
+  return (
+    <div>
+      <div className={styles.Container}>
+        <div className={styles.card}>
+          <h2 className={styles.h1}>Crea tu pokemon</h2>
+        
+        <form   className={styles.form}
+         onSubmit={handleSubmit}>
+          
+          <div>
+            <label  className={styles.text} htmlFor="name">Name</label>
+            <input className={styles.input}
+              placeholder="name"
+              type="text"
+              name="name"
+              value={newPokemon.name}
+              onChange={handleChange}
+            />
+          <p>{errors.name}</p>
+          </div>
 
-        Object.keys(errors).length === 1 && errors.types.length ?
-            setSection(section === 1 ? 2 : 1) 
-            :
-            swal("You must complete the form correctly!", "", "error");
-    }
+          <div>
+            <label  className={styles.text} htmlFor="hp">HP</label>
+            <input className={styles.input}
+              placeholder="hp"
+              type="number"
+              name="hp"
+              value={newPokemon.hp}
+              onChange={handleChange}
+            />
+             <p>{errors.hp}</p>
+          </div>
 
-    function handleChecked(e){
-        if (e.target.checked) {
-            setInput({
-            ...input,
-            types: [...input.types , e.target.value]
-            })
+          <div>
+            <label  className={styles.text} htmlFor="attack">ATTACK</label>
+            <input className={styles.input}
+              placeholder="attack"
+              type="number"
+              name="attack"
+              value={newPokemon.attack}
+              onChange={handleChange}
+              
+            />
+            <p>{errors.attack}</p>
+          </div>
+          <div>
+            <label  className={styles.text} htmlFor="defense">DEFENSE</label>
+            <input className={styles.input}
+              placeholder="defense"
+              type="number"
+              name="defense"
+              value={newPokemon.defense}
+              onChange={handleChange}
+            />
+            <p>{errors.defense}</p>
+          </div>
+          <div>
+            <label  className={styles.text} htmlFor="speed">SPEED</label>
+            <input className={styles.input}
+              placeholder="speed"
+              type="number"
+              name="speed"
+              value={newPokemon.speed}
+              onChange={handleChange}
+            />
+            <p>{errors.speed}</p>
+          </div>
+          <div>
+            <label  className={styles.text} htmlFor="weight">WEIGHT</label>
+            <input className={styles.input}
+              placeholder="weight"
+              type="number"
+              name="weight"
+              value={newPokemon.weight}
+              onChange={handleChange}
+            />
+            <p>{errors.weight}</p>
+          </div>
+          <div>
+            <label  className={styles.text} htmlFor="height">HEIGHT</label>
+            <input className={styles.input}
+              placeholder="height"
+              type="number"
+              name="height"
+              value={newPokemon.height}
+              onChange={handleChange}
+            />
+            <p>{errors.height}</p>
+          </div>
+          <div>
+            <label  className={styles.text} htmlFor="types">TYPE</label>
+            <select className={styles.types} name="types" onChange={handleTypeChange}>
+              <option>Seleccionar tipo</option>
+              {type.map((type) => (
+                <option key={type.name} value={type.name}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            setErrors(validate({
-                ...input,
-                types: [...input.types , e.target.value]
-            }, pokemons))
-            
-        } else if (!e.target.checked) {
-            setInput({
-                ...input,
-                types: input.types.filter(el => el !== e.target.value)
-                })
+          <button  className={styles.button} type="submit">
+            Guardar Pokemon
+          </button>
 
-            setErrors(validate({
-                ...input,
-                types: input.types.filter(el => el !== e.target.value)
-            }, pokemons))    
-        }
-    };
-
-    function handleSubmit(e){
-        e.preventDefault();
-
-        if(Object.keys(errors).length === 0 && input.name.length){
-            dispatch(postPokemon(input));
-            dispatch(getPokemons());
-            swal("Good job!", "Pokemon created successfuly!", "success");
-            setInput({
-                name: '',
-                hp: '',
-                attack: '',
-                defense: '',
-                speed: '',
-                weight: '',
-                height: '',
-                types: [],
-            })
-            history.push("/home")
-        } else{
-            swal("You must choose at least one type!", "", "error");
-        }  
-    }
-
-
-    return(
-        <div>
-              <div className={style.header}>
-                     <h2>Create your pokemon!</h2>
-                 </div>
-                 <form onSubmit={ (e) => handleSubmit(e) }>
-                     <section className={section === 1 ? style.show : style.hide}>
-                     <div className={style.formdiv} >
-                         <label>Name</label>
-                         <input 
-                            type="text"
-                            value={input.name}
-                            name="name"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.name.length ? errors.name ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                            autocomplete="off"
-                        />
-                        {
-                            errors.name ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.name}</p>
-                                </div>
-                            ) :
-                            input.name.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Hp</label>
-                        <input 
-                            type="number"
-                            value={input.hp}
-                            name="hp"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.hp.length ? errors.hp ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                            errors.hp ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.hp}</p>
-                                </div>
-                            ) :
-                            input.hp.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Attack</label>
-                        <input 
-                            type="number"
-                            value={input.attack}
-                            name="attack"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.attack.length ? errors.attack ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                            errors.attack ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.attack}</p>
-                                </div>
-                            ) :
-                            input.attack.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Defense</label>
-                        <input 
-                            type="number"
-                            value={input.defense}
-                            name="defense"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.defense.length ? errors.defense ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                             errors.defense ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.defense}</p>
-                                </div>
-                            ) :
-                            input.defense.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Speed</label>
-                        <input 
-                            type="number"
-                            value={input.speed}
-                            name="speed"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.speed.length ? errors.speed ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                             errors.speed ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.speed}</p>
-                                </div>
-                            ) :
-                            input.speed.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Weight</label>
-                        <input 
-                            type="number"
-                            value={input.weight}
-                            name="weight"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.weight.length ? errors.weight ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                             errors.weight ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.weight}</p>
-                                </div>
-                            ) :
-                            input.weight.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-                    </div>
-                    <div className={style.formdiv}>
-                        <label>Height</label>
-                        <input 
-                            type="number"
-                            value={input.height}
-                            name="height"
-                            onChange={ (e) => handleChange(e) }
-                            style={input.height.length ? errors.height ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-                        />
-                        {
-                            errors.height ? (
-                                <div>
-                                <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                <p>{errors.height}</p>
-                                </div>
-                            ) :
-                            input.height.length ?
-                            <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-                            :
-                            <i></i>
-                        }
-
-                    </div>
-                    <button onClick={(e) => {handleSection(e)}}>Next</button>
-                    </section>
-                    <section className={section === 2 ? style.show : style.hide}>
-                        <div style={{position:'relative'}}> 
-                            <span className={style.choosetypes} style={{display:'flex', justifyContent:'flex-start', fontFamily:'Open Sans'}}>Choose up to 2 Pokemon types</span>
-
-                            <div className={style.containertypes}>
-                            {
-                                types.map( type => (
-                                    <label for={type.name}>
-                                        <div className={style.bytype} > 
-                                            <input 
-                                                    type="checkbox" 
-                                                    id={type.name} 
-                                                    value={type.name}
-                                                    onChange={(e) => handleChecked(e)}
-                                            />
-                                            <div className={style.circle} style={{display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:typesColors[type.name]}}
-                                            ><img src={`images/icons/${type.name}.svg`} alt={`${type.name}`} height="16px" /></div>
-                                            <div style={{width:'8px'}}></div>       
-                                            {type.name}
-                                        </div>
-                                    </label>
-                                ))
-                            }  
-                            </div>  
-                            
-                                {
-                                    errors.types ? (
-                                        <div className={style.typeserror}>
-                                            <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-                                            <span>{errors.types}</span>
-                                        </div>
-                                    ) :
-                                    <i></i>
-                                }
-                        </div>  
-
-                        <div style={{display:'flex', flexFlow:'row nowrap'}}> 
-                            <button className={style.previous} onClick={(e) => {handleSection(e)}}>Previous</button>
-                            <button className={style.create} type='submit'>Create</button>
-                        </div>
-                        
-                    </section>   
-                    
-
-                </form>
-            </div>
-      
-    )
-}
-export default createPokemon;
-
-// import React, { useState, useEffect } from 'react';
-// import { Link,  } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { postPokemon, getTypes, getPokemons } from '../../redux/';
-// import style from './PokemonCreate.module.css'
-// import validate from './validate.js';
-// import Oak from '../../images/profesor.png'
-// import swal from 'sweetalert';
-
-
-// export default function PokemonCreate(){
-
-
-//     const typesColors={
-//         fire: '#F57D31',
-//         normal: '#AAA67F',
-//         fighting: '#D3425F',
-//         flying: '#A891EC',
-//         ground: '#DEC16B',
-//         poison: '#A43E9E',
-//         rock: '#B69E31',
-//         bug: '#A7B723',
-//         ghost: '#70559B',
-//         steel: '#5695A3',
-//         water: '#6493EB',
-//         grass: '#74CB48',
-//         electric: '#F9CF30',
-//         psychic: '#FB5584',
-//         ice: '#9AD6DF',
-//         dragon: '#7037FF',
-//         dark: '#75574C',
-//         fairy: '#E69EAC',
-//         unknown: '#BF5481',
-//         shadow: '#36045E'
-//     }
-
-
-//     useEffect(() => {
-//         dispatch(getTypes());
-//     }, [dispatch]);
-
-    // function handleChange(e){
-    //     setInput({
-    //         ...input,
-    //         [e.target.name] : e.target.value.replaceAll(/^\s+/g, "").replaceAll(/\s+/g, " ")
-    //     })
-
-    //     setErrors(validate({
-    //         ...input,
-    //         [e.target.name] : e.target.value
-    //     }, pokemons))
-    // }
-
-    
-    // function handleSection(e){
-    //     e.preventDefault();
-
-    //     Object.keys(errors).length === 1 && errors.types.length ?
-    //         setSection(section === 1 ? 2 : 1) 
-    //         :
-    //         swal("You must complete the form correctly!", "", "error");
-    // }
-
-    // function handleChecked(e){
-    //     if (e.target.checked) {
-    //         setInput({
-    //         ...input,
-    //         types: [...input.types , e.target.value]
-    //         })
-
-    //         setErrors(validate({
-    //             ...input,
-    //             types: [...input.types , e.target.value]
-    //         }, pokemons))
-            
-    //     } else if (!e.target.checked) {
-    //         setInput({
-    //             ...input,
-    //             types: input.types.filter(el => el !== e.target.value)
-    //             })
-
-    //         setErrors(validate({
-    //             ...input,
-    //             types: input.types.filter(el => el !== e.target.value)
-    //         }, pokemons))    
-    //     }
-    // };
-
-    // function handleSubmit(e){
-    //     e.preventDefault();
-
-    //     if(Object.keys(errors).length === 0 && input.name.length){
-    //         dispatch(postPokemon(input));
-    //         dispatch(getPokemons());
-    //         swal("Good job!", "Pokemon created successfuly!", "success");
-    //         setInput({
-    //             name: '',
-    //             hp: '',
-    //             attack: '',
-    //             defense: '',
-    //             speed: '',
-    //             weight: '',
-    //             height: '',
-    //             types: [],
-    //         })
-    //         history.push("/home")
-    //     } else{
-    //         swal("You must choose at least one type!", "", "error");
-    //     }  
-    // }
-
-
-//     return(
-//         <div className={style.pagina}>
-//             <img src={Oak} alt="Profesor Oak" height="560px" className={style.img}/>
-//             <Link to='/home' className={style.back} style={{textDecoration: 'none'}}><button>Return home</button></Link>
-//             <div className={style.container}>
-//                 <div className={style.header}>
-//                     <h2>Create your pokemon!</h2>
-//                 </div>
-//                 <form onSubmit={ (e) => handleSubmit(e) }>
-//                     <section className={section === 1 ? style.show : style.hide}>
-//                     <div className={style.formdiv} >
-//                         <label>Name</label>
-//                         <input 
-//                             type="text"
-//                             value={input.name}
-//                             name="name"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.name.length ? errors.name ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                             autocomplete="off"
-//                         />
-//                         {
-//                             errors.name ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.name}</p>
-//                                 </div>
-//                             ) :
-//                             input.name.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Hp</label>
-//                         <input 
-//                             type="number"
-//                             value={input.hp}
-//                             name="hp"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.hp.length ? errors.hp ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                             errors.hp ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.hp}</p>
-//                                 </div>
-//                             ) :
-//                             input.hp.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Attack</label>
-//                         <input 
-//                             type="number"
-//                             value={input.attack}
-//                             name="attack"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.attack.length ? errors.attack ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                             errors.attack ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.attack}</p>
-//                                 </div>
-//                             ) :
-//                             input.attack.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Defense</label>
-//                         <input 
-//                             type="number"
-//                             value={input.defense}
-//                             name="defense"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.defense.length ? errors.defense ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                              errors.defense ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.defense}</p>
-//                                 </div>
-//                             ) :
-//                             input.defense.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Speed</label>
-//                         <input 
-//                             type="number"
-//                             value={input.speed}
-//                             name="speed"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.speed.length ? errors.speed ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                              errors.speed ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.speed}</p>
-//                                 </div>
-//                             ) :
-//                             input.speed.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Weight</label>
-//                         <input 
-//                             type="number"
-//                             value={input.weight}
-//                             name="weight"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.weight.length ? errors.weight ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                              errors.weight ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.weight}</p>
-//                                 </div>
-//                             ) :
-//                             input.weight.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-//                     </div>
-//                     <div className={style.formdiv}>
-//                         <label>Height</label>
-//                         <input 
-//                             type="number"
-//                             value={input.height}
-//                             name="height"
-//                             onChange={ (e) => handleChange(e) }
-//                             style={input.height.length ? errors.height ? {borderColor: '#e74c3c' } : {borderColor: '#2ecc71'} : {}}
-//                         />
-//                         {
-//                             errors.height ? (
-//                                 <div>
-//                                 <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                 <p>{errors.height}</p>
-//                                 </div>
-//                             ) :
-//                             input.height.length ?
-//                             <i className="fas fa-check-circle" style={{color: '#2ecc71'}}></i>
-//                             :
-//                             <i></i>
-//                         }
-
-//                     </div>
-//                     <button onClick={(e) => {handleSection(e)}}>Next</button>
-//                     </section>
-//                     <section className={section === 2 ? style.show : style.hide}>
-//                         <div style={{position:'relative'}}> 
-//                             <span className={style.choosetypes} style={{display:'flex', justifyContent:'flex-start', fontFamily:'Open Sans'}}>Choose up to 2 Pokemon types</span>
-
-//                             <div className={style.containertypes}>
-//                             {
-//                                 types.map( type => (
-//                                     <label for={type.name}>
-//                                         <div className={style.bytype} > 
-//                                             <input 
-//                                                     type="checkbox" 
-//                                                     id={type.name} 
-//                                                     value={type.name}
-//                                                     onChange={(e) => handleChecked(e)}
-//                                             />
-//                                             <div className={style.circle} style={{display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:typesColors[type.name]}}
-//                                             ><img src={`images/icons/${type.name}.svg`} alt={`${type.name}`} height="16px" /></div>
-//                                             <div style={{width:'8px'}}></div>       
-//                                             {type.name}
-//                                         </div>
-//                                     </label>
-//                                 ))
-//                             }  
-//                             </div>  
-                            
-//                                 {
-//                                     errors.types ? (
-//                                         <div className={style.typeserror}>
-//                                             <i className="fas fa-exclamation-circle" style={{color: '#e74c3c'}}></i>
-//                                             <span>{errors.types}</span>
-//                                         </div>
-//                                     ) :
-//                                     <i></i>
-//                                 }
-//                         </div>  
-
-//                         <div style={{display:'flex', flexFlow:'row nowrap'}}> 
-//                             <button className={style.previous} onClick={(e) => {handleSection(e)}}>Previous</button>
-//                             <button className={style.create} type='submit'>Create</button>
-//                         </div>
-                        
-//                     </section>   
-                    
-
-//                 </form>
-//             </div>
-
-//         </div>
-//     )
-// }
+        </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default CreatePokemon;

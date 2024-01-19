@@ -2,7 +2,7 @@
   @include flex(row, wrap, space-around, center);
 
   padding: 16px 24px;
-  background-color: rgb(14, 14, 15);
+  background-color: black;
   min-height: 100vh;
 
   @include sm {

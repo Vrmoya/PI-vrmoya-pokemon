@@ -39,7 +39,7 @@ const getPokeByName = async (req, res) => {
       speed: stats.find(stat => stat.stat.name === 'speed')?.base_stat || null,
       height,
       weight,
-      type: types.find((type) => type.slot === 1).type.name
+      type: types.map((type) => type.type.name),
        };
 
     console.log("Respuesta de la API:", pokeNameAPI); 

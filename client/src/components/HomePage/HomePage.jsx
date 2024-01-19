@@ -13,6 +13,7 @@ import {
 
 import Cards from "../Cards/Cards";
 import Pagination from "../Pagination/Pagination";
+import Style from "../HomePage/HomePage.module.scss";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,12 @@ const HomePage = () => {
   }, [filteredPokemons]);
 
   const handleSort = (orderBy, order) => {
-    dispatch(sortByOrder(orderBy, order));
+    if (order === "default") {
+      // Reiniciar a la ordenación predeterminada
+      dispatch(sortByOrder("default", "default"));
+    } else {
+      dispatch(sortByOrder(orderBy, order));
+    }
   };
 
   const handlePageChange = (page) => {
@@ -62,9 +68,8 @@ const HomePage = () => {
   }
 
   if (originFilter) {
-    filteredDisplayPokemons = filteredDisplayPokemons.filter(
-      (pokemon) =>
-        originFilter === "API" ? !!pokemon.api : originFilter === "DDBB"
+    filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) =>
+      originFilter === "API" ? !!pokemon.api : originFilter === "DDBB"
     );
   }
 
@@ -75,38 +80,49 @@ const HomePage = () => {
 
   return (
     <div>
-      <select onChange={handleTypeFilterChange}>
-        <option value="all">Todos los tipos</option>
-        {types.map((type) => (
-          <option key={type.name} value={type.name}>
-            {type.name}
-          </option>
-        ))}
-      </select>
+      <div className={Style.container}>
+        <select className={Style.content} onChange={handleTypeFilterChange}>
+          <option value="all">Todos los tipos</option>
+          {types.map((type) => (
+            <option key={type.name} value={type.name}>
+              {type.name}
+            </option>
+          ))}
+        </select>
+      
+        <select className={Style.content} onChange={handleOriginFilterChange}>
+          <option value="">Todos los orígenes</option>
+          <option value="API">API</option>
+          <option value="DDBB">DDBB</option>
+        </select>
+      
+        <select className={Style.content} onChange={(e) => handleSort("name", e.target.value)}>
+          <option value="default">Orden predeterminado</option>
+          <option value="asc">Ascendente (Nombre)</option>
+          <option value="desc">Descendente (Nombre)</option>
+        </select>
+      
+        <select className={Style.content} onChange={(e) => handleSort("attack", e.target.value)}>
+          <option value="default">Orden predeterminado</option>
+          <option value="asc">Ascendente (Ataque)</option>
+          <option value="desc">Descendente (Ataque)</option>
+        </select>
+      </div>
+      <div>
+        <Cards pokemons={displayedPokemons} />
+      </div>
 
-      <select  onChange={handleOriginFilterChange}>
-        <option value="">Todos los orígenes</option>
-        <option value="API">API</option>
-        <option value="DDBB">DDBB</option>
-      </select>
-      <select onChange={(e) => handleSort("name", e.target.value)}>
-        <option value="asc">Ascendente (Nombre)</option>
-        <option value="desc">Descendente (Nombre)</option>
-      </select>
-      <select onChange={(e) => handleSort("attack", e.target.value)}>
-        <option value="asc">Ascendente (Ataque)</option>
-        <option value="desc">Descendente (Ataque)</option>
-      </select>
-      <Cards pokemons={displayedPokemons} />
-      <Pagination
-        totalPages={Math.ceil(filteredDisplayPokemons.length / pokemonsPerPage)}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
+      <div>
+        <Pagination
+          totalPages={Math.ceil(
+            filteredDisplayPokemons.length / pokemonsPerPage
+          )}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };
 
 export default HomePage;
-
-

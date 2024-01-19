@@ -34,7 +34,7 @@ const findAllPokemon = async (req, res) => {
           const attack = stats.find((stat) => stat.stat.name === "attack").base_stat;
           const defense = stats.find((stat) => stat.stat.name === "defense").base_stat;
           const speed = stats.find((stat) => stat.stat.name === "speed").base_stat;
-          const type = types.find((type) => type.slot === 1).type.name;
+          const pokemonTypes = types.map((type) => type.type.name);
           const image = sprites.other.dream_world.front_default;
 
           return {
@@ -47,7 +47,7 @@ const findAllPokemon = async (req, res) => {
             speed,
             height,
             weight,
-            type,
+            type: pokemonTypes,
             api:true
           };
         })
@@ -61,6 +61,7 @@ const findAllPokemon = async (req, res) => {
       // Si ya tenemos suficientes Pokémon en la BD, devolver solo esos
       const allPokemons = pokemonsFromDB.map((pokemon) => ({
         ...pokemon.toJSON(),
+        type: [pokemon.type],
         api:false // Agrega el campo 'origin' con el valor 'DB'
       }));
       return res.status(200).json(allPokemons);

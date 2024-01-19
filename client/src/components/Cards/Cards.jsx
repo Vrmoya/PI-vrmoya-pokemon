@@ -8,7 +8,7 @@ const Cards = ({ pokemons }) => {
     <div className={styles.Container}>
       {pokemons.map((pokemon) => (
         <Card
-          key={pokemon.id}
+          key={pokemon.api ? `api_${pokemon.id}` : `db_${pokemon.id}`}
           id={pokemon.id}
           name={pokemon.name}
           image={pokemon.image}

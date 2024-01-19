@@ -4,6 +4,9 @@ const { Router } = require('express');
 
 const router = Router();
 
+
+
+
 const findAllPokemnon = require("../controllers/findAllPokemon")
 const getPokeById = require("../controllers/getPokeById");
 const getPokeByName = require('../controllers/getPokeByName');

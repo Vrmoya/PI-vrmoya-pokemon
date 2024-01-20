@@ -1,5 +1,3 @@
-// components/Cards/Cards.jsx
-
 import Card from '../Card/Card';
 import styles from './Cards.module.scss';
 

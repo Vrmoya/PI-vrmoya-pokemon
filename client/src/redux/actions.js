@@ -8,7 +8,6 @@ import {
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
-  EXTRACT_TYPES_FROM_POKEMONS,
   CREAR_POKEMON_REQUEST,
   CREAR_POKEMON_SUCCESS,
   CREAR_POKEMON_FAILURE,
@@ -93,9 +92,6 @@ export const sortByOrder = (orderBy, order) => ({
   payload: { orderBy, order },
 });
 
-
-
-
 export const setPokemonsPerPage = (page) => ({
   type: SET_POKEMONS_PER_PAGE,
   payload: page,
@@ -104,6 +100,9 @@ export const setCurrentPage = (page) => ({
   type: SET_CURRENT_PAGE,
   payload: page,
 });
+
+
+
 
 export const filterByType = (type)=>{
   return {
@@ -156,9 +155,4 @@ export const crearPokemon = (pokemonData) => async (dispatch) => {
   } catch (error) {
     dispatch(crearPokemonFailure('Error de red'));
   }
-};
-export const extractTypesFromPokemons = () => {
-  return {
-    type: EXTRACT_TYPES_FROM_POKEMONS,
-  };
 };

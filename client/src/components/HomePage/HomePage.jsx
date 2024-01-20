@@ -8,7 +8,6 @@ import {
   sortByOrder,
   setPokemonsPerPage,
   setCurrentPage,
-  extractTypesFromPokemons,
 } from "../../redux/actions";
 
 import Cards from "../Cards/Cards";
@@ -26,7 +25,6 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchPokemons());
-    dispatch(extractTypesFromPokemons());
     dispatch(setPokemonsPerPage(12));
     dispatch(fetchTypes());
   }, [dispatch]);
@@ -51,27 +49,31 @@ const HomePage = () => {
 
   const handleTypeFilterChange = (e) => {
     const selectedType = e.target.value;
+    setTypeFilter(selectedType);
     dispatch(filterByType(selectedType));
   };
 
   const handleOriginFilterChange = (e) => {
+    console.log("Origin Filter Value:", e.target.value);
     setOriginFilter(e.target.value);
     dispatch(filterByOrigin(e.target.value));
+    console.log("Filtered Pokemons after Origin Filter:", filteredPokemons);
   };
-
+  
   let filteredDisplayPokemons = filteredPokemons;
 
-  if (typeFilter) {
-    filteredDisplayPokemons = filteredDisplayPokemons.filter(
-      (pokemon) => pokemon.types && pokemon.types.includes(typeFilter)
-    );
-  }
+if (typeFilter) {
+  filteredDisplayPokemons = filteredDisplayPokemons.filter(
+    (pokemon) => pokemon.types && pokemon.types.includes(typeFilter)
+  );
+}
 
-  if (originFilter) {
-    filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) =>
-      originFilter === "API" ? !!pokemon.api : originFilter === "DDBB"
-    );
-  }
+if (originFilter === "API") {
+  filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => pokemon.api);
+} else if (originFilter === "DDBB") {
+  filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => !pokemon.api);
+}
+
 
   const startIndex = (currentPage - 1) * pokemonsPerPage;
   const endIndex = startIndex + pokemonsPerPage;
@@ -91,21 +93,21 @@ const HomePage = () => {
         </select>
       
         <select className={Style.content} onChange={handleOriginFilterChange}>
-          <option value="">Todos los orígenes</option>
+          <option value="all">Todos los orígenes</option>
           <option value="API">API</option>
           <option value="DDBB">DDBB</option>
         </select>
       
         <select className={Style.content} onChange={(e) => handleSort("name", e.target.value)}>
-          <option value="default">Orden predeterminado</option>
-          <option value="asc">Ascendente (Nombre)</option>
-          <option value="desc">Descendente (Nombre)</option>
+          <option value="default">Ordenar Nombre</option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
         </select>
       
         <select className={Style.content} onChange={(e) => handleSort("attack", e.target.value)}>
-          <option value="default">Orden predeterminado</option>
-          <option value="asc">Ascendente (Ataque)</option>
-          <option value="desc">Descendente (Ataque)</option>
+          <option value="default">Ordenar Ataque</option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
         </select>
       </div>
       <div>

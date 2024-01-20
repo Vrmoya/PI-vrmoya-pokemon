@@ -2,8 +2,8 @@ export default function Validate(inputs) {
   console.log("Datos a validar:", inputs);
 
   let errors = {};
-  let RegExpression = /^[a-zA-Z\s]+$/; // Modificación: Permite letras y espacios
-  // let RegExpression = /^[a-zA-Z\s]*$/;
+  // let RegExpression = /^[a-zA-Z\s]+$/; // Modificación: Permite letras y espacios
+  let RegExpression = /^[a-zA-Z\s]*$/;
 
   if (!inputs.name || !inputs.name.trim()) {
     errors.name = "A name is required";
@@ -49,7 +49,7 @@ export default function Validate(inputs) {
   return errors;
 }
 const isValidImageUrl = (url) => {
-  // Puedes implementar una lógica más avanzada para validar URLs de imágenes
+ 
   // Por ahora, simplemente verifica si la URL comienza con "http://" o "https://"
   return url.startsWith("http://") || url.startsWith("https://");
 };

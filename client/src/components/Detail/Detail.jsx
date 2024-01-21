@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPokemonById } from "../../redux/actions";
 import Style from "./Detail.module.scss";
+
+
 const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();

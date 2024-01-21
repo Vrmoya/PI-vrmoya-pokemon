@@ -30,13 +30,10 @@ const getPokeByName = async (req, res) => {
     });
     
 
-    // Si se encontraron resultados en la base de datos local, devolverlos
-
     if (pokeNameDB.length > 0) {
       return res.status(200).json(pokeNameDB);
     }
 
-    // Si no se encontraron resultados en la base de datos local, buscar en la API
 
     const {data} = await axios(`${URL.replace('{name}', encodeURIComponent(name))}`);
     const {id, sprites, stats, height, weight, types } = data;
@@ -55,7 +52,6 @@ const getPokeByName = async (req, res) => {
 
     console.log("Respuesta de la API:", pokeNameAPI); 
 
-    // Verificar si la respuesta de la API tiene la estructura esperada
     if (!pokeNameAPI || typeof pokeNameAPI !== "object" || !pokeNameAPI.name) {
       console.error("La respuesta de la API no es válida:", pokeNameAPI);
       return res.status(404).json({

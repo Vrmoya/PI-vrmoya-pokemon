@@ -11,8 +11,7 @@ const getPokeByName = async (req, res) => {
   
     
 
-    // Buscar en la base de datos local
-    const pokeNameDB = await Pokemon.findAll({
+       const pokeNameDB = await Pokemon.findAll({
       where: {
         name: {
           [Op.iLike]: `%${name}%`,

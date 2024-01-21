@@ -21,13 +21,12 @@ const getPokeById = async (req, res) => {
       ],
     });
     
-    // Si se encuentra en la BD, devolverlo
+    
     if (pokemonDB) {
       // const type = pokemonDB.Tyope.map((type)=> type.name)
       return res.status(200).json(pokemonDB);
     }
-    
-    // Si no se encuentra en la BD, hacer la solicitud a la API
+  
     const { data } = await axios(`${URL}${id}`);
     const { name, sprites, stats, height, weight, types } = data;
     const pokemonAPI = { 

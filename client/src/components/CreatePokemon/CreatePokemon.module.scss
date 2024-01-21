@@ -63,13 +63,26 @@
 }
 
 .types {
+  width: auto;
   padding: 5px 10px;
   height: 42px;
   margin: 10px auto;
   min-width: 225px;
-  height: 34px;
   border-radius: 10px;
+  overflow: auto;
+
+  select {
+    option:checked {
+      background-color: #b6b82b;
+      color: #ffffff;
+    }
+  }
 }
+
+
+
+
+
 
 .h1 {
 

@@ -18,7 +18,18 @@ const getPokeByName = async (req, res) => {
           [Op.iLike]: `%${name}%`,
         },
       },
+      include: [
+        {
+          model: Type,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
+    
+
     // Si se encontraron resultados en la base de datos local, devolverlos
 
     if (pokeNameDB.length > 0) {

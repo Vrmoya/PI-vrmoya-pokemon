@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Pokemon } = require("../db");
+const { Pokemon, Type } = require("../db");
 
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -9,10 +9,21 @@ const getPokeById = async (req, res) => {
   try {
     // Intentar buscar en la BD
     
-    const pokemonDB = await Pokemon.findByPk(id);
+    const pokemonDB = await Pokemon.findByPk(id, {
+      include: [
+        {
+          model: Type,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
     
     // Si se encuentra en la BD, devolverlo
     if (pokemonDB) {
+      // const type = pokemonDB.Tyope.map((type)=> type.name)
       return res.status(200).json(pokemonDB);
     }
     

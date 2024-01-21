@@ -37,11 +37,7 @@ export default function Validate(inputs) {
 
   if (!inputs.type || inputs.type.length === 0) {
     errors.type = "Must choose at least one Pokemon type";
-  } else if (inputs.type.length > 2) {
-    errors.type = `You can't choose more than 2 types per Pokemon`;
-  
-  }
-  
+  } 
   
   // Add additional validations as needed
   console.log("Errores generados:", errors);

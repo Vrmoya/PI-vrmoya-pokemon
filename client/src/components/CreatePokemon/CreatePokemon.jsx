@@ -242,11 +242,11 @@ const CreatePokemon = () => {
             </div>
 
             <div>
-              <label className={styles.text} htmlFor="types">
+              <label className={styles.text} htmlFor="type">
                 TYPE
               </label>
-              <select
-                className={styles.types}
+              <select multiple
+                // className={styles.types}
                 name="type"
                 onChange={handleTypeChange}
               >
@@ -258,6 +258,7 @@ const CreatePokemon = () => {
                 ))}
               </select>
             </div>
+           
 
             <button className={styles.button} type="submit">
               Guardar Pokemon

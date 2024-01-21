@@ -12,7 +12,7 @@ export default function Validate(inputs) {
   } else if (inputs.name.length > 18) {
     errors.name = `The name can't be longer than 18 characters`;
   } else {
-    errors.name = ""; 
+    errors.name = ""; // No error
   }
 
   const validateStat = (stat, min, max, statName) => {
@@ -30,21 +30,22 @@ export default function Validate(inputs) {
   validateStat(inputs.weight, 1, 1500, "weight");
   validateStat(inputs.height, 1, 80, "height");
 
+  // Fix: Change from data.image to inputs.image
   if (!inputs.image || !isValidImageUrl(inputs.image)) {
     errors.image = "Please enter a valid image URL.";
   }
 
   if (!inputs.type || inputs.type.length === 0) {
     errors.type = "Must choose at least one Pokemon type";
-  } else {
-    errors.type = "";
-  }
+  } 
   
+  // Add additional validations as needed
   console.log("Errores generados:", errors);
 
   return errors;
 }
 const isValidImageUrl = (url) => {
  
+  // Por ahora, simplemente verifica si la URL comienza con "http://" o "https://"
   return url.startsWith("http://") || url.startsWith("https://");
 };

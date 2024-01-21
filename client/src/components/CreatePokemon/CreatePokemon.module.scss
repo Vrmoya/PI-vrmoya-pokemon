@@ -70,19 +70,15 @@
   min-width: 225px;
   border-radius: 10px;
   overflow: auto;
-}
-.select {
 
-  border: none;
-  font-size: 14px;
-  height: 50px;
-  padding: 5px;
-  width: 250px;
+  select {
+    option:checked {
+      background-color: #b6b82b;
+      color: #ffffff;
+    }
+  }
 }
-.select:focus{ outline: none;}
-.select:checked{
-  color:red;
-}
+
 
 
 
@@ -129,9 +125,4 @@
   background-image: -o-linear-gradient(top, #9d06b8, #07a82f);
   background-image: linear-gradient(to bottom, #9d06b8, #07a82f);
   text-decoration: wavy;
-}
-
-.p {
-  color: red;
-  font-weight: bold;
 }

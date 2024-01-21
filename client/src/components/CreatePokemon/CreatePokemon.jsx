@@ -66,23 +66,28 @@ const CreatePokemon = () => {
   const handleImageChange = (event) => {
     const selectedImage = event.target.value.trim();
 
+    // Verificar si se proporciona una URL de imagen
     if (selectedImage !== "") {
+      // Validar y procesar la imagen según tus necesidades
       setNewPokemon((prevPokemon) => ({
         ...prevPokemon,
         image: selectedImage,
       }));
 
+      // Actualizar la validación del campo de imagen
       const validationErrors = Validate({
         ...newPokemon,
         image: selectedImage,
       });
       setErrors(validationErrors);
     } else {
+      // Si no se proporciona una URL, asignar la URL de la imagen por defecto
       setNewPokemon((prevPokemon) => ({
         ...prevPokemon,
-        image: "https://www.pokemon.com/static-assets/app/static3/img/og-default-image.jpeg",
+        image: "https://images.wikidexcdn.net/mwuploads/wikidex/f/f9/latest/20160625150820/Blitzle.png",
       }));
 
+      // Limpiar el error asociado con la imagen
       setErrors((prevErrors) => ({
         ...prevErrors,
         image: "",
@@ -98,15 +103,18 @@ const CreatePokemon = () => {
     event.preventDefault();
     console.log("Datos antes de enviar:", newPokemon);
     console.log("Errores antes de enviar:", errors);
-
+    // Validaciones adicionales antes de enviar el formulario
     const formValid = Object.values(errors).every((value) => value === "");
 
     if (formValid) {
       console.log("Datos a enviar:", newPokemon);
+      // Llamar a la acción para crear el Pokémon
       dispatch(crearPokemon(newPokemon));
 
+      // Reiniciar el formulario después de enviar con éxito
       resetForm();
     } else {
+      // Manejar el caso en que el formulario no sea válido
       console.error("Formulario no válido");
     }
   };
@@ -130,7 +138,7 @@ const CreatePokemon = () => {
                 value={newPokemon.name}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.name}</p>
+              <p>{errors.name}</p>
             </div>
 
             <div>
@@ -145,7 +153,7 @@ const CreatePokemon = () => {
                 value={newPokemon.hp}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.hp}</p>
+              <p>{errors.hp}</p>
             </div>
 
             <div>
@@ -160,7 +168,7 @@ const CreatePokemon = () => {
                 value={newPokemon.attack}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.attack}</p>
+              <p>{errors.attack}</p>
             </div>
             <div>
               <label className={styles.text} htmlFor="defense">
@@ -174,7 +182,7 @@ const CreatePokemon = () => {
                 value={newPokemon.defense}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.defense}</p>
+              <p>{errors.defense}</p>
             </div>
             <div>
               <label className={styles.text} htmlFor="speed">
@@ -188,7 +196,7 @@ const CreatePokemon = () => {
                 value={newPokemon.speed}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.speed}</p>
+              <p>{errors.speed}</p>
             </div>
             <div>
               <label className={styles.text} htmlFor="weight">
@@ -202,7 +210,7 @@ const CreatePokemon = () => {
                 value={newPokemon.weight}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.weight}</p>
+              <p>{errors.weight}</p>
             </div>
             <div>
               <label className={styles.text} htmlFor="height">
@@ -216,7 +224,7 @@ const CreatePokemon = () => {
                 value={newPokemon.height}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.height}</p>
+              <p>{errors.height}</p>
             </div>
             <div>
               <label className={styles.text} htmlFor="image">
@@ -230,16 +238,15 @@ const CreatePokemon = () => {
                 value={newPokemon.image}
                 onChange={handleImageChange}
               />
-              <p className={styles.p}>{errors.image}</p>
+              <p>{errors.image}</p>
             </div>
 
             <div>
               <label className={styles.text} htmlFor="type">
                 TYPE
               </label>
-              <p>CTRL + click para seleccionar mas de un type</p>
               <select multiple
-                className={styles.select}
+                // className={styles.types}
                 name="type"
                 onChange={handleTypeChange}
               >
@@ -250,7 +257,6 @@ const CreatePokemon = () => {
                   </option>
                 ))}
               </select>
-                <p className={styles.p}>{errors.type}</p>
             </div>
            
 

@@ -36,7 +36,7 @@ const HomePage = () => {
 
   const handleSort = (orderBy, order) => {
     if (order === "default") {
-      // Reiniciar a la ordenación predeterminada
+      
       dispatch(sortByOrder("default", "default"));
     } else {
       dispatch(sortByOrder(orderBy, order));

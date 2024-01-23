@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { crearPokemon, fetchTypes } from "../../redux/actions";
+import { crearPokemon } from "../../redux/actions";
 import Validate from "../CreatePokemon/Validate";
 import styles from "./CreatePokemon.module.scss";
 
@@ -26,9 +26,10 @@ const CreatePokemon = () => {
   const [newPokemon, setNewPokemon] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    dispatch(fetchTypes());
-  }, [dispatch]);
+  
+  // useEffect(() => {
+  //   dispatch(fetchTypes());
+  // }, [dispatch]);
 
 
 
@@ -112,7 +113,7 @@ const CreatePokemon = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.Container}>
         <div className={styles.card}>
           <h2 className={styles.h1}>Crea tu pokemon</h2>
@@ -130,8 +131,8 @@ const CreatePokemon = () => {
                 value={newPokemon.name}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.name}</p>
             </div>
+              <p className={styles.p}>{errors.name}</p>
 
             <div>
               <label className={styles.text} htmlFor="hp">
@@ -145,8 +146,8 @@ const CreatePokemon = () => {
                 value={newPokemon.hp}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.hp}</p>
             </div>
+              <p className={styles.p}>{errors.hp}</p>
 
             <div>
               <label className={styles.text} htmlFor="attack">
@@ -160,8 +161,8 @@ const CreatePokemon = () => {
                 value={newPokemon.attack}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.attack}</p>
             </div>
+              <p className={styles.p}>{errors.attack}</p>
             <div>
               <label className={styles.text} htmlFor="defense">
                 DEFENSE
@@ -174,8 +175,8 @@ const CreatePokemon = () => {
                 value={newPokemon.defense}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.defense}</p>
             </div>
+              <p className={styles.p}>{errors.defense}</p>
             <div>
               <label className={styles.text} htmlFor="speed">
                 SPEED
@@ -188,8 +189,8 @@ const CreatePokemon = () => {
                 value={newPokemon.speed}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.speed}</p>
             </div>
+              <p className={styles.p}>{errors.speed}</p>
             <div>
               <label className={styles.text} htmlFor="weight">
                 WEIGHT
@@ -202,8 +203,8 @@ const CreatePokemon = () => {
                 value={newPokemon.weight}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.weight}</p>
             </div>
+              <p className={styles.p}>{errors.weight}</p>
             <div>
               <label className={styles.text} htmlFor="height">
                 HEIGHT
@@ -216,8 +217,8 @@ const CreatePokemon = () => {
                 value={newPokemon.height}
                 onChange={handleChange}
               />
-              <p className={styles.p}>{errors.height}</p>
             </div>
+              <p className={styles.p}>{errors.height}</p>
             <div>
               <label className={styles.text} htmlFor="image">
                 Imagen URL
@@ -230,14 +231,14 @@ const CreatePokemon = () => {
                 value={newPokemon.image}
                 onChange={handleImageChange}
               />
-              <p className={styles.p}>{errors.image}</p>
             </div>
+              <p className={styles.p}>{errors.image}</p>
 
             <div>
               <label className={styles.text} htmlFor="type">
-                TYPE
+                TYPE <p>CTRL + click para seleccionar mas de un type</p>
               </label>
-              <p>CTRL + click para seleccionar mas de un type</p>
+              
               <select multiple
                 className={styles.select}
                 name="type"
@@ -250,8 +251,8 @@ const CreatePokemon = () => {
                   </option>
                 ))}
               </select>
-                <p className={styles.p}>{errors.type}</p>
             </div>
+                {/* <p className={styles.p}>{errors.type}</p> */}
            
 
             <button className={styles.button} type="submit">

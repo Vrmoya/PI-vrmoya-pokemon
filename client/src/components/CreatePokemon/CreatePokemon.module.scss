@@ -1,3 +1,6 @@
+.container{
+  background-image: url('../../assets/images.jpg');
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -75,7 +78,7 @@
 
   border: none;
   font-size: 14px;
-  height: 50px;
+  height: 80px;
   padding: 5px;
   width: 250px;
 }

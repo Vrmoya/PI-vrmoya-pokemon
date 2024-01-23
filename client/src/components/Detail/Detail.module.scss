@@ -1,3 +1,8 @@
+.background{
+  background-color: black;
+}
+
+
 .container {
   display: flex;
   padding-top: 25%;
@@ -8,13 +13,13 @@
   background-image: url("../../assets/poke2.jpg"); 
   background-size: cover;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 40px;
   border: 1px solid black;
   flex-direction: column;
   text-transform: uppercase;
   text-shadow: 2px 2px rgba(207, 197, 197, 0.5);
   margin-left: 15%;
- 
+ box-shadow: 7px 7px rgba(255, 255, 255, 0.733);
 }
 
 .image {

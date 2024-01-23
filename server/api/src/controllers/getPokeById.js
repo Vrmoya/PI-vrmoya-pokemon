@@ -7,7 +7,7 @@ const getPokeById = async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    // Intentar buscar en la BD
+    
     
     const pokemonDB = await Pokemon.findByPk(id, {
       include: [
@@ -28,8 +28,9 @@ const getPokeById = async (req, res) => {
     }
   
     const { data } = await axios(`${URL}${id}`);
-    const { name, sprites, stats, height, weight, types } = data;
+    const {  name, sprites, stats, height, weight, types } = data;
     const pokemonAPI = { 
+       id,
       name, 
       image: sprites?.other.dream_world.front_default || null,
       hp: stats.find(stat => stat.stat.name === 'hp')?.base_stat || null,

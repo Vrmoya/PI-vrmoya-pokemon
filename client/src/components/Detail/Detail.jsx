@@ -17,7 +17,7 @@ const Detail = () => {
   }, [dispatch, id]);
 
   return (
-    <div>
+    <div className={Style.background}>
       {pokemon && pokemon.name && (
         <>
           <div className={Style.container}>
@@ -29,6 +29,7 @@ const Detail = () => {
               />
            
               <ul>
+                <h3 className={Style.h3}>#{pokemon.id}</h3>
                 <h1 className={Style.h3}>{pokemon.name}</h1>
                 <div className={Style.lists}>
                 <li>Hp: {pokemon.hp}</li>

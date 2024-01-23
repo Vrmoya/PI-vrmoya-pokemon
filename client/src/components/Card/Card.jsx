@@ -22,7 +22,7 @@
         <img src={image} alt={name} className={styles.img} />
         <h4>Name: {name}</h4>
         <div className={styles.p}>
-        <p>Type: {type ? type.join(", ") : 'Unknown'}</p>
+        <p>Type: {type ? type.join(" - ") : 'Unknown'}</p>
         <p>attack: {attack}</p>
         <p>hp: {hp}</p>
         </div>

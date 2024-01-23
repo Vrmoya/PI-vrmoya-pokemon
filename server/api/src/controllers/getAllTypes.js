@@ -27,6 +27,7 @@ const getAllTypes = async (req, res) => {
         await Type.bulkCreate(typesFromAPI);
 
         cachedTypes = typesFromAPI;
+        
         console.log("Enviando tipos desde la API");
         return res.status(200).json(typesFromAPI);
     } catch (error) {

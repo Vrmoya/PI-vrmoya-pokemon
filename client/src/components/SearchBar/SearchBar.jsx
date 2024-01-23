@@ -19,7 +19,12 @@ const SearchBar = () => {
   
   
   };
-  
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
 
   return (
     <div className={styles.container}>
@@ -28,6 +33,7 @@ const SearchBar = () => {
         placeholder="Buscar por nombre"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <button className={styles.button} onClick={handleSearch}>Buscar</button>
     </div>

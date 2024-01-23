@@ -15,11 +15,22 @@
     padding: 16px;
   }
 
+  @include xl{
+    @include flex(row, wrap, space-evenly, center);
+    padding: 20px;
+    
+  }
+
   .logo {
     @include flex(row, nowrap, flex-start, center);
 
     @include sm {
       margin-bottom: 1rem; 
+    }
+
+    @include xl{
+      @include flex(row, wrap, flex-start, center);
+    
     }
 }
 }

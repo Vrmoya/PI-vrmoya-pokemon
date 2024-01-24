@@ -8,6 +8,7 @@ import {
   sortByOrder,
   setPokemonsPerPage,
   setCurrentPage,
+  resetFilters,
 } from "../../redux/actions";
 
 import Cards from "../Cards/Cards";
@@ -31,13 +32,16 @@ const HomePage = () => {
 
   useEffect(() => {
     setTypeFilter("");
+    console.log(filteredPokemons)
     setOriginFilter("");
   }, [filteredPokemons]);
 
+
   const handleSort = (orderBy, order) => {
     if (order === "default") {
+  
+      dispatch(resetFilters());
       
-      dispatch(sortByOrder("default", "default"));
     } else {
       dispatch(sortByOrder(orderBy, order));
     }

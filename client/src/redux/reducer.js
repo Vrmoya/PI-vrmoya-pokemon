@@ -1,12 +1,13 @@
 import {
   SET_POKEMONS,
-  SORT_BY_ORDER,
-  SET_POKEMONS_PER_PAGE,
   SET_TYPES,
   SET_CURRENT_PAGE,
+  SET_POKEMONS_PER_PAGE,
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
+  SORT_BY_ORDER,
+  RESET_FILTERS,
   CREAR_POKEMON_REQUEST,
   CREAR_POKEMON_SUCCESS,
   CREAR_POKEMON_FAILURE,
@@ -76,12 +77,13 @@ const pokemonReducer = (state = initialState, { type, payload }) => {
 
     case SORT_BY_ORDER:
       const { orderBy, order } = payload;
-
+      console.log("payload:",payload)
       if (orderBy === "default") {
         return {
           ...state,
           order: "asc",
           filteredPokemons: state.pokemons,
+          
         };
       }
 
@@ -106,6 +108,13 @@ const pokemonReducer = (state = initialState, { type, payload }) => {
         order,
         filteredPokemons: sortedPokemons,
       };
+
+      case RESET_FILTERS:
+  return {
+    ...state,
+    order: "asc",
+    filteredPokemons: state.pokemons,
+  };
 
     case SET_POKEMONS_PER_PAGE:
       return {

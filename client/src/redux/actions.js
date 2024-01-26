@@ -2,12 +2,13 @@ import axios from "axios";
 import {
   SET_POKEMONS,
   SET_TYPES,
-  SORT_BY_ORDER,
   SET_POKEMONS_PER_PAGE,
   SET_CURRENT_PAGE,
   SET_SELECTED_POKEMON,
   FILTER_BY_TYPE,
   FILTER_BY_ORIGIN,
+  SORT_BY_ORDER,
+  RESET_FILTERS,
   CREAR_POKEMON_REQUEST,
   CREAR_POKEMON_SUCCESS,
   CREAR_POKEMON_FAILURE,
@@ -87,10 +88,6 @@ export const fetchPokemonById = (id) => {
 };
 
 
-export const sortByOrder = (orderBy, order) => ({
-  type: SORT_BY_ORDER,
-  payload: { orderBy, order },
-});
 
 export const setPokemonsPerPage = (page) => ({
   type: SET_POKEMONS_PER_PAGE,
@@ -118,6 +115,14 @@ export const filterByOrigin = (origin)=>{
   }
 }
 
+export const sortByOrder = (orderBy, order) => ({
+  type: SORT_BY_ORDER,
+  payload: { orderBy, order },
+});
+
+export const resetFilters = () => ({
+  type: RESET_FILTERS,
+});
 
 export const crearPokemonRequest = () => ({
   type: CREAR_POKEMON_REQUEST,

@@ -30,7 +30,7 @@ const findAllPokemon = async (req, res) => {
     if (remainingPokemonCount > 0) {
       const { data } = await axios(`${URL}?limit=${remainingPokemonCount}`);
       const apiPokemons = data.results;
-console.log(apiPokemons);
+        console.log(apiPokemons);
       const apiPokemonDetails = await Promise.all(
         apiPokemons.map(async (apiPokemon) => {
           const { data } = await axios(apiPokemon.url);

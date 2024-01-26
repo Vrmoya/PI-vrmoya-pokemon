@@ -1,8 +1,10 @@
 .Container {
   @include flex(row, wrap, space-around, center);
 
-  padding: 16px 24px;
+  padding: auto;
   background-color: black;
+  background-image: url('../../assets/5448674.jpg');
+  background-size: cover;
   min-height: 100vh;
 
   @include sm {

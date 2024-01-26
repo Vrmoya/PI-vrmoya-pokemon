@@ -28,6 +28,7 @@ const HomePage = () => {
     dispatch(setPokemonsPerPage(12));
     dispatch(fetchTypes());
   }, [dispatch]);
+  
 
   useEffect(() => {
     setTypeFilter("");
@@ -36,7 +37,7 @@ const HomePage = () => {
 
   const handleSort = (orderBy, order) => {
     if (order === "default") {
-      
+
       dispatch(sortByOrder("default", "default"));
     } else {
       dispatch(sortByOrder(orderBy, order));
@@ -51,28 +52,30 @@ const HomePage = () => {
     const selectedType = e.target.value;
     setTypeFilter(selectedType);
     dispatch(filterByType(selectedType));
+    handlePageChange(1)
   };
 
   const handleOriginFilterChange = (e) => {
     console.log("Origin Filter Value:", e.target.value);
     setOriginFilter(e.target.value);
     dispatch(filterByOrigin(e.target.value));
+    handlePageChange(1)
     console.log("Filtered Pokemons after Origin Filter:", filteredPokemons);
   };
-  
+
   let filteredDisplayPokemons = filteredPokemons;
 
-if (typeFilter) {
-  filteredDisplayPokemons = filteredDisplayPokemons.filter(
-    (pokemon) => pokemon.types && pokemon.types.includes(typeFilter)
-  );
-}
+  if (typeFilter) {
+    filteredDisplayPokemons = filteredDisplayPokemons.filter(
+      (pokemon) => pokemon.types && pokemon.types.includes(typeFilter)
+    );
+  }
 
-if (originFilter === "API") {
-  filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => pokemon.api);
-} else if (originFilter === "DDBB") {
-  filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => !pokemon.api);
-}
+  if (originFilter === "API") {
+    filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => pokemon.api);
+  } else if (originFilter === "DDBB") {
+    filteredDisplayPokemons = filteredDisplayPokemons.filter((pokemon) => !pokemon.api);
+  }
 
 
   const startIndex = (currentPage - 1) * pokemonsPerPage;
@@ -91,19 +94,19 @@ if (originFilter === "API") {
             </option>
           ))}
         </select>
-      
+
         <select className={Style.content} onChange={handleOriginFilterChange}>
           <option value="all">Todos los orígenes</option>
           <option value="API">API</option>
           <option value="DDBB">DDBB</option>
         </select>
-      
+
         <select className={Style.content} onChange={(e) => handleSort("name", e.target.value)}>
           <option value="default">Ordenar Nombre</option>
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
-      
+
         <select className={Style.content} onChange={(e) => handleSort("attack", e.target.value)}>
           <option value="default">Ordenar Ataque</option>
           <option value="asc">Ascendente</option>

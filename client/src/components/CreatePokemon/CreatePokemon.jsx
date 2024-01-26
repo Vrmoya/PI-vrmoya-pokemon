@@ -1,6 +1,6 @@
-import  { useState } from "react";
+import  { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { crearPokemon } from "../../redux/actions";
+import { crearPokemon, fetchTypes } from "../../redux/actions";
 import Validate from "../CreatePokemon/Validate";
 import styles from "./CreatePokemon.module.scss";
 
@@ -27,9 +27,9 @@ const CreatePokemon = () => {
   const [errors, setErrors] = useState({});
 
   
-  // useEffect(() => {
-  //   dispatch(fetchTypes());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchTypes());
+  }, [dispatch]);
 
 
 

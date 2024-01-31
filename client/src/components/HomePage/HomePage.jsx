@@ -40,14 +40,9 @@ const HomePage = () => {
 
   const handleSort = (orderBy, order) => {
     if (order === "default") {
-<<<<<<< HEAD
-
-      dispatch(sortByOrder("default", "default"));
-=======
   
       dispatch(resetFilters());
       
->>>>>>> 6de9345c8a84e022a2e49e7c45ba7b2d7348d37c
     } else {
       dispatch(sortByOrder(orderBy, order));
     }

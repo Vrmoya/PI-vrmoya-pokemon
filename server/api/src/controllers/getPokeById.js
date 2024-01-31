@@ -23,8 +23,11 @@ const getPokeById = async (req, res) => {
     
     
     if (pokemonDB) {
-      // const type = pokemonDB.Tyope.map((type)=> type.name)
-      return res.status(200).json(pokemonDB);
+      const pokemonType = {
+        ...pokemonDB.toJSON(),
+        type: pokemonDB.types.map((type) => type.name),
+      };
+      return res.status(200).json(pokemonType);
     }
   
     const { data } = await axios(`${URL}${id}`);
